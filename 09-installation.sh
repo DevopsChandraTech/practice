@@ -18,6 +18,7 @@ else
     echo "Success:: Installing MySql."
 fi
 
+#mysql installation
 dnf install mysql -y
 
 if [ $? -ne 0 ]; then
@@ -25,6 +26,26 @@ if [ $? -ne 0 ]; then
     exit 1
 else 
     echo "MySql Successfully Installed."
+fi
+
+#nginx installation
+dnf install nginx -y
+
+if [ $? -ne 0 ]; then
+    echo "Error:: please check once the command"
+    exit 1
+else 
+    echo "Nginx Successfully Installed."
+fi
+
+#python3 installation
+dnf install python3 -y
+
+if [ $? -ne 0 ]; then
+    echo "Error:: please check once the command"
+    exit 1
+else 
+    echo "Python3 Successfully Installed."
 fi
 
 END_TIME=$(date +%s)
