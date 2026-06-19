@@ -18,35 +18,26 @@ else
     echo "Success:: Installing MySql."
 fi
 
+VALIDATE(){
+    if [ $1 -ne 0 ]; then # functions take inputs as a arguments like shell-script arguments
+        echo "Error:: please check once the command"
+        exit 1
+    else 
+        echo "$2 Installed Successfully."
+    fi
+}
+
 #mysql installation
 dnf install mysql -y
-
-if [ $? -ne 0 ]; then
-    echo "Error:: please check once the command"
-    exit 1
-else 
-    echo "MySql Installed Successfully."
-fi
+VALIDATE $? MySql
 
 #nginx installation
 dnf install nginx -y
-
-if [ $? -ne 0 ]; then
-    echo "Error:: please check once the command"
-    exit 1
-else 
-    echo "Nginx Installed Successfully."
-fi
+VALIDATE $? Nginx
 
 #python3 installation
 dnf install python3 -y
-
-if [ $? -ne 0 ]; then
-    echo "Error:: please check once the command"
-    exit 1
-else 
-    echo "Python3 Installed Successfully."
-fi
+VALIDATE $? Python3
 
 END_TIME=$(date +%s)
 
