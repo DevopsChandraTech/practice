@@ -13,6 +13,7 @@ USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
     echo "Error:: run command with root user privilizes."
+    exit 1
 else 
     echo "Success:: Installing MySql."
 fi
@@ -21,6 +22,7 @@ dnf install mysql -y
 
 if [ $? -ne 0 ]; then
     echo "Error:: please check once the command"
+    exit 1
 else 
     echo "MySql Successfully Installed."
 fi
