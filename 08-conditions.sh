@@ -19,3 +19,5 @@ elif [ $NUMBER -eq 10 ]; then
 else    
     echo "given number $NUMBER is lessthan 10."
 fi
+
+
