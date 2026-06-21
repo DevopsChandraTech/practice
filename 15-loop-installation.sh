@@ -35,7 +35,7 @@ VALIDATE(){
 #installations
 for package in $@;
 do
-    dnf list installed $2
+    dnf list installed $package
     if [ $package != 0 ]; then
         echo "Failure::$package not installed"
         dnf install $package -y
