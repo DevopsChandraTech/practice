@@ -33,11 +33,11 @@ VALIDATE(){
 #installations
 for package in $@
 do
-    dnf list installed $package
+    dnf list installed $package &>> $FILE_NAME
     if [ $? -ne 0 ]; then
-        dnf install $package -y
+        dnf install $package -y &>> $FILE_NAME
         VALIDATE $? "$package"
     else    
-        echo -e "$package already installed $Y Skipping...! $N"
+        echo -e "$package already installed $Y Skipping...! $N" | tee -a $FILE_NAME
     fi
 done
