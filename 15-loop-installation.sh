@@ -36,11 +36,10 @@ VALIDATE(){
 for package in $@;
 do
     dnf list installed $2
-    if [ $package -ne 0 ]; then
+    if [ $package != 0 ]; then
         echo "Failure::$package not installed"
         dnf install $package -y
         exit 1
-
     else    
         echo "Success::$package already installed Skipping...!"
     fi
