@@ -37,7 +37,7 @@ dnf list installed mysql &>> $FILE_NAME
         dnf install mysql -y &>> $FILE_NAME
         VALIDATE $? MySql
     else 
-        echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
+        echo -e "MySql already installed $Y Skipping..! $N" | tee -a $FILE_NAME
     fi
 
 #nginx installation
@@ -47,7 +47,7 @@ dnf list installed mysql &>> $FILE_NAME
         dnf install nginxnn -y &>> $FILE_NAME
         VALIDATE $? Nginx
     else 
-        echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
+        echo -e "Nginx already installed $Y Skipping..! $N" | tee -a $FILE_NAME
     fi
 
 #Python3 Installation
@@ -57,7 +57,7 @@ dnf list installed mysql &>> $FILE_NAME
         dnf install python3 -y &>> $FILE_NAME
         VALIDATE $? Python3
     else 
-        echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
+        echo -e "Python3 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
     fi
 
 
