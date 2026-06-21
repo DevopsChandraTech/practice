@@ -24,9 +24,9 @@ mkdir -p $LOGS_FOLDER
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-        echo "$R Failure $N command not found." | tee -a $FILE_NAME
+        echo -e "$R Failure $N command not found." | tee -a $FILE_NAME
     else    
-        echo "$G Success $N Installing $2" | tee -a $FILE_NAME
+        echo -e "$G Success $N Installing $2" | tee -a $FILE_NAME
     fi
 }
 #mysql installation
