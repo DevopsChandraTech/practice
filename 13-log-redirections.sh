@@ -24,39 +24,39 @@ mkdir -p $LOGS_FOLDER
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-        echo "$R Failure $N command not found."
+        echo "$R Failure $N command not found." | tee -a $FILE_NAME
     else    
-        echo "$G Success $N Installing $2"
+        echo "$G Success $N Installing $2" | tee -a $FILE_NAME
     fi
 }
 #mysql installation
 
-dnf list installed mysql
+dnf list installed mysql &>> $FILE_NAME
 if [ $? -ne 0 ]; then
-    dnf install mysql -y
+    dnf install mysql -y &>> $FILE_NAME
     VALIDATE $? MySql
 else 
-    echo "$2 already installed $Y Skipping..! $N"
+    echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
 fi
 
 #nginx installation
 
-dnf list installed mysql
+dnf list installed mysql &>> $FILE_NAME
 if [ $? -ne 0 ]; then
-    dnf install nginx -y
+    dnf install nginx -y &>> $FILE_NAME
     VALIDATE $? Nginx
 else 
-    echo "$2 already installed $Y Skipping..! $N"
+    echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
 fi
 
 #Python3 Installation
 
-dnf list installed mysql
+dnf list installed mysql &>> $FILE_NAME
 if [ $? -ne 0 ]; then
-    dnf install python3 -y
+    dnf install python3 -y &>> $FILE_NAME
     VALIDATE $? Python3
 else 
-    echo "$2 already installed $Y Skipping..! $N"
+    echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
 fi
 
 
