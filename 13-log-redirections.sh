@@ -44,7 +44,7 @@ dnf list installed mysql &>> $FILE_NAME
 
 dnf list installed mysql &>> $FILE_NAME
     if [ $? -ne 0 ]; then
-        dnf install nginxnn -y &>> $FILE_NAME
+        dnf install nginx -y &>> $FILE_NAME
         VALIDATE $? Nginx
     else 
         echo -e "Nginx already installed $Y Skipping..! $N" | tee -a $FILE_NAME
