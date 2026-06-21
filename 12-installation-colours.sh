@@ -11,13 +11,15 @@ USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
     echo "Error:: run command with root user privilizes."
+    exit 1
 else
-    echo "Installing MySql"
+    echo "Installing $2"
 fi
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
         echo -e "$2 Installation $R Failure..! $N"
+        exit 1
     else 
         echo -e "$2 Installation is $G Success..! $N"
     fi
@@ -29,6 +31,6 @@ VALIDATE $? MySql
 dnf install nginx -y
 VALIDATE $? Nginx
 
-dnf install python3
+dnf install python3 -y
 VALIDATE $? Python3
 
