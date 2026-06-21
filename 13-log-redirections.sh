@@ -5,6 +5,7 @@
 #install mysql nginx python3
 R="\e[31m"
 G="\e[32m"
+Y="\e[33m"
 N="\e[0m"
 
 USER_ID=$(id -u)
@@ -43,7 +44,7 @@ dnf list installed mysql &>> $FILE_NAME
 
 dnf list installed mysql &>> $FILE_NAME
     if [ $? -ne 0 ]; then
-        dnf install nginx -y &>> $FILE_NAME
+        dnf install nginxnn -y &>> $FILE_NAME
         VALIDATE $? Nginx
     else 
         echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
