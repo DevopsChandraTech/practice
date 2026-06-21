@@ -37,10 +37,11 @@ for package in $@;
 do
     dnf list installed $package
     if [ $package != 0 ]; then
-        echo "Failure::$package not installed"
         dnf install $package -y
+        VALIDATE $? $package
         exit 1
+
     else    
-        echo "Success::$package already installed Skipping...!"
+        echo -e "$package already installed $Y Skipping...! $N"
     fi
 done
