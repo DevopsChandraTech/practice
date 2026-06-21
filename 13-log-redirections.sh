@@ -10,10 +10,10 @@ N="\e[0m"
 USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
-    echo "Error:: run command with root user privilizes." &>> $FILE_NAME
+    echo "Error:: run command with root user privilizes." | tee -a $FILE_NAME
     exit 1
 else
-    echo "Installing $2" &>> $FILE_NAME
+    echo "Installing $2" | tee -a $FILE_NAME
 fi
 
 LOGS_FOLDER="/var/nginx/shell-script"
@@ -24,19 +24,19 @@ mkdir -p $LOGS_FOLDER
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-        echo -e "$2 Installation $R Failure..! $N" &>> $FILE_NAME
+        echo -e "$2 Installation $R Failure..! $N"  | tee -a $FILE_NAME
         exit 1
     else 
-        echo -e "$2 Installation is $G Success..! $N" &>> $FILE_NAME
+        echo -e "$2 Installation is $G Success..! $N"  | tee -a $FILE_NAME
     fi
 }
 
-dnf install mysql -y
+dnf install mysql -y &>> $FILE_NAME
 VALIDATE $? MySql
 
-dnf install nginx -y
+dnf install nginx -y &>> $FILE_NAME
 VALIDATE $? Nginx
 
-dnf install python3 -y
+dnf install python3 -y &>> $FILE_NAME
 VALIDATE $? Python3
 
