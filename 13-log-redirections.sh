@@ -32,31 +32,31 @@ VALIDATE(){
 #mysql installation
 
 dnf list installed mysql &>> $FILE_NAME
-if [ $? -ne 0 ]; then
-    dnf install mysql -y &>> $FILE_NAME
-    VALIDATE $? MySql
-else 
-    echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
-fi
+    if [ $? -ne 0 ]; then
+        dnf install mysql -y &>> $FILE_NAME
+        VALIDATE $? MySql
+    else 
+        echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
+    fi
 
 #nginx installation
 
 dnf list installed mysql &>> $FILE_NAME
-if [ $? -ne 0 ]; then
-    dnf install nginx -y &>> $FILE_NAME
-    VALIDATE $? Nginx
-else 
-    echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
-fi
+    if [ $? -ne 0 ]; then
+        dnf install nginx -y &>> $FILE_NAME
+        VALIDATE $? Nginx
+    else 
+        echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
+    fi
 
 #Python3 Installation
 
 dnf list installed mysql &>> $FILE_NAME
-if [ $? -ne 0 ]; then
-    dnf install python3 -y &>> $FILE_NAME
-    VALIDATE $? Python3
-else 
-    echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
-fi
+    if [ $? -ne 0 ]; then
+        dnf install python3 -y &>> $FILE_NAME
+        VALIDATE $? Python3
+    else 
+        echo -e "$2 already installed $Y Skipping..! $N" | tee -a $FILE_NAME
+    fi
 
 
