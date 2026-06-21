@@ -33,14 +33,13 @@ VALIDATE(){
 }
 
 #installations
-for package in $@;
+for package in $@
 do
     dnf list installed $package
     if [ $package != 0 ]; then
         dnf install $package -y
         VALIDATE $? $package
         exit 1
-
     else    
         echo -e "$package already installed $Y Skipping...! $N"
     fi
