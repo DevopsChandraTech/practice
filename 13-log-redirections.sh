@@ -16,8 +16,8 @@ else
     echo "Installing $2" | tee -a $FILE_NAME
 fi
 
-LOGS_FOLDER="/var/nginx/shell-script"
-SCRIPT_NAME=$(echo $0 | awk -F "." '{print $0}')
+LOGS_FOLDER="/var/log/shell-script"
+SCRIPT_NAME=$(echo $0 | awk -F "." '{print $1}')
 FILE_NAME="$LOGS_FOLDER/$SCRIPT_NAME.log"
 
 mkdir -p $LOGS_FOLDER
