@@ -26,6 +26,7 @@ mkdir -p $LOGS_FOLDER
 VALIDATE(){
     if [ $1 -ne 0 ]; then
         echo -e "$R Failure $N command not found." | tee -a $FILE_NAME
+        exit 1
     else    
         echo -e "$G Success $N Installing $2" | tee -a $FILE_NAME
     fi
@@ -34,7 +35,7 @@ VALIDATE(){
 
 dnf list installed mysql &>> $FILE_NAME
     if [ $? -ne 0 ]; then
-        dnf install mysql -y &>> $FILE_NAME
+        dnf install mysqlp -y &>> $FILE_NAME
         VALIDATE $? MySql
     else 
         echo -e "MySql already installed $Y Skipping..! $N" | tee -a $FILE_NAME
