@@ -35,7 +35,7 @@ VALIDATE(){
 
 dnf list installed mysql &>> $FILE_NAME
     if [ $? -ne 0 ]; then
-        dnf install mysqlp -y &>> $FILE_NAME
+        dnf install mysql -y &>> $FILE_NAME
         VALIDATE $? MySql
     else 
         echo -e "MySql already installed $Y Skipping..! $N" | tee -a $FILE_NAME
@@ -43,7 +43,7 @@ dnf list installed mysql &>> $FILE_NAME
 
 #nginx installation
 
-dnf list installed mysql &>> $FILE_NAME
+dnf list installed nginx &>> $FILE_NAME
     if [ $? -ne 0 ]; then
         dnf install nginx -y &>> $FILE_NAME
         VALIDATE $? Nginx
@@ -53,7 +53,7 @@ dnf list installed mysql &>> $FILE_NAME
 
 #Python3 Installation
 
-dnf list installed mysql &>> $FILE_NAME
+dnf list installed python3 &>> $FILE_NAME
     if [ $? -ne 0 ]; then
         dnf install python3 -y &>> $FILE_NAME
         VALIDATE $? Python3
