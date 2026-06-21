@@ -13,8 +13,6 @@ USER_ID=$(id -u)
 if [ $USER_ID -ne 0 ]; then
     echo "Error:: run command with root user privilizes." | tee -a $FILE_NAME
     exit 1
-else
-    echo "Installing $2" | tee -a $FILE_NAME
 fi
 
 LOGS_FOLDER="/var/log/shell-script"
@@ -38,8 +36,7 @@ do
     dnf list installed $package
     if [ $? -ne 0 ]; then
         dnf install $package -y
-        VALIDATE $? $package
-        exit 1
+        VALIDATE $? "$package"
     else    
         echo -e "$package already installed $Y Skipping...! $N"
     fi
