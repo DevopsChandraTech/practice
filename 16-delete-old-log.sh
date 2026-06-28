@@ -22,10 +22,12 @@ if [ ! -d $SOURCE_DIR ]; then
     echo -e "Error:: Source directory doesnot exist"
 fi
 
-find $SOURCE_DIR -type f -mtime +14
+FILES_TO_DELETE=$(find $SOURCE_DIR -type f -name "*.log" -mtime +14)
 while IFS= read -r filepath
 do
-    echo "the files are : $filepath"
-done <<< $SOURCE_DIR
+    echo "Deleted file is : $filepath"
+    rm -rf $filepath
+    echo "delete this file: $filepath"
+done <<< $FILES_TO_DELETE
 
 
