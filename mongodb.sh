@@ -35,3 +35,9 @@ systemctl enable mongod  &>> $FILE_NAME
 VALIDATE $? "Enable mongodb"
 systemctl start mongod &>> $FILE_NAME
 VALIDATE $? "Start mongodb"
+
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+VALIDATE $? "Allowing Remote Connections"
+
+systemctl restart mongod
+VALIDATE $? "Restart mongodb"
