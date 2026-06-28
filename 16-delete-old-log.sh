@@ -18,7 +18,7 @@ FILE_NAME="$LOGS_FOLDER/$SCRIPT_NAME.log"
 mkdir -p $LOGS_FOLDER
 
 SOURCE_DIR="/home/ec2-user/app-logs"
-if [ -d $SOURCE_DIR ]; then
+if [ ! -d $SOURCE_DIR ]; then
     echo -e "Error:: Source directory doesnot exist"
 fi
 
