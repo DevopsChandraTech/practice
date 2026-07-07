@@ -5,7 +5,7 @@ NUMBER2=200
 
 NAME="CHANDU"
 
-FAMILY="{"Amma" "Chandu" "Anu" "Gnaipka" "Hansith"}"
+FAMILY=("Amma" "Chandu" "Anu" "Gnaipka" "Hansith")
 
 SUM=$(($NUMBER1 + $NUMBER2 + $NAME))
 
