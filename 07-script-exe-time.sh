@@ -3,7 +3,7 @@
 echo "the script started exucuted"
 START_TIME=$(date +%s)
 
-sleep 20 &
+sleep 20&
 
 END_TIME=$(date +%s)
 
