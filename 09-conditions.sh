@@ -1,8 +1,9 @@
 #!/bin/bash
 
-read "please enter the number : NUMBER"
+echo "pls enter your number"
+read NUMBER
 
-if [ $($NUMBER % 2) -eq 0 ]; then
+if [ $(($NUMBER % 2)) -eq 0 ]; then
     echo "given number $NUMBER is divided by 2"
 else
     echo "given number $NUMBER not divided by2"
