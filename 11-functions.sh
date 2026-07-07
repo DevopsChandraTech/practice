@@ -19,7 +19,7 @@ VALIDATE(){
 }
 
 #mysql installation
-dnf install mysqldlllllllllssdd -y
+dnf install mysql -y
 VALIDATE $? "MySql"
 if [ $? -ne 0 ]; then
     echo "Error:: MySql Installation is fail"
