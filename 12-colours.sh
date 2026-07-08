@@ -17,10 +17,10 @@ fi
 # checking command is correct or not
 VALIDATE(){
     if [ $1 -ne 0 ]; then # functions take inputs as args like shell script args
-        echo "Error:: Unable to find the command."
+        echo "Installing $2 is $R Failure..! $N."
         exit 1
     else 
-        echo "Success::Installing the $2"
+        echo -e "Installing $2 is $G Success..! $Y"
     fi
 }
 
@@ -28,10 +28,30 @@ VALIDATE(){
 dnf list installed mysql 
 if [ $? -ne 0 ]; then
     dnf install mysql -y
-    VALIDATE $? "Installing MySql"
+    VALIDATE $? "Installing $2"
     exit 1
 else    
-    echo "$2 already installed $Y Skipping..! $N"
+    echo -e "$2 already installed $Y Skipping..! $N"
+fi
+
+#nginx installation
+dnf list installed nginx
+if [ $? -ne 0 ]; then
+    dnf install nginx -y
+    VALIDATE $? "Installing $2"
+    exit 1
+else    
+    echo -e "$2 already installed $Y Skipping..! $N"
+fi
+
+#python3 installation 
+dnf list installed python3
+if [ $? -ne 0 ]; then
+    dnf install python3 -y
+    VALIDATE $? "Installing $2"
+    exit 1
+else    
+    echo -e "$2 already installed $Y Skipping..! $N"
 fi
 
 
