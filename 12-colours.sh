@@ -31,7 +31,7 @@ if [ $? -ne 0 ]; then
     VALIDATE $? "Installing $2"
     exit 1
 else    
-    echo -e "$2 already installed $Y Skipping..! $N"
+    echo -e "MySql already installed $Y Skipping..! $N"
 fi
 
 #nginx installation
@@ -41,7 +41,7 @@ if [ $? -ne 0 ]; then
     VALIDATE $? "Installing $2"
     exit 1
 else    
-    echo -e "$2 already installed $Y Skipping..! $N"
+    echo -e "Nginx already installed $Y Skipping..! $N"
 fi
 
 #python3 installation 
@@ -51,7 +51,7 @@ if [ $? -ne 0 ]; then
     VALIDATE $? "Installing $2"
     exit 1
 else    
-    echo -e "$2 already installed $Y Skipping..! $N"
+    echo -e "Python3 already installed $Y Skipping..! $N"
 fi
 
 
