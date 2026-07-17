@@ -17,14 +17,29 @@ VALIDATE(){
 
 #mysql installation
 dnf list installed mysql 
+if [ $? -ne 0 ]; then
+    dnf install mysql -y
+else 
+    echo "$2 already installed Skipping...!"
+fi
 VALIDATE $? "MySql"
 
 #nginx installation
-dnf install nginx -y
+dnf list installed mysql 
+if [ $? -ne 0 ]; then
+    dnf install nginx -y
+else 
+    echo "$2 already installed Skipping...!"
+fi
 VALIDATE $? "Nginx"
 
 #unzip installation
-dnf install unzip -y
+dnf list installed mysql 
+if [ $? -ne 0 ]; then
+    dnf install unzip -y
+else 
+    echo "$2 already installed Skipping...!"
+fi
 VALIDATE $? "Unzip"
 
 
