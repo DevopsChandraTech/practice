@@ -1,59 +1,42 @@
 #!/bin/bash
 
+"""
+1.check user has root user access or not
+2.given command is correct or not 
+3.installation success or not
+"""
+
 USERID=$(id -u)
-
-# checking root user access
 if [ $USERID -ne 0 ]; then
-    echo "Error:: Run command with root user privilizes."
+    echo "Error:: run comand with root user privilizes"
     exit 1
-fi
-
-# checking command is correct or not
-if [ $? -ne 0 ]; then
-    echo "Error:: Unable to find the command."
-    exit 1
-else 
-    echo "Success::Installing the mysql"
 fi
 
 #mysql installation
 dnf install mysql -y
 if [ $? -ne 0 ]; then
-    echo "Error:: MySql Installation is fail"
+    echo "Error:: Installing MySql is Failure..!"
     exit 1
 else
-    echo "MySql Installation is Success."
+    echo "Installing MySql is Success..!"
 fi
 
 #nginx installation
-if [ $? -ne 0 ]; then
-    echo "Error:: Unable to find the command."
-    exit 1
-else 
-    echo "Success::Installing the nginx"
-fi
-
 dnf install nginx -y
 if [ $? -ne 0 ]; then
-    echo "Error:: Nginx Installation is fail"
+    echo "Error:: Installing nginx is Failure..!"
     exit 1
 else
-    echo "Nginx Installation is Success."
+    echo "Installing nginx is Success..!"
 fi
 
-#python3 installation
+#unzip installation
+dnf install unzip -y
 if [ $? -ne 0 ]; then
-    echo "Error:: Unable to find the command."
-    exit 1
-else 
-    echo "Success::Installing the python3"
-fi
-
-dnf install python3 -y
-if [ $? -ne 0 ]; then
-    echo "Error:: Python3 Installation is fail"
+    echo "Error:: Installing Unzip is Failure..!"
     exit 1
 else
-    echo "Python3 Installation is Success."
+    echo "Installing Unzip is Success..!"
 fi
+
 
