@@ -11,7 +11,7 @@ VALIDATE(){
         echo "Error:: Installing $2 is Failure..!"
         exit 1
     else
-        echo "Installing $2 is Success..!"
+        echo "$2 Installing is Success..!"
     fi
 }
 
@@ -19,7 +19,6 @@ VALIDATE(){
 dnf list installed mysql 
 if [ $? -ne 0 ]; then
     dnf install mysql -y
-    exit 1
 else 
     echo "MySQl already installed Skipping...!"
 fi
@@ -29,7 +28,6 @@ VALIDATE $? "MySql"
 dnf list installed nginx 
 if [ $? -ne 0 ]; then
     dnf install nginx -y
-    exit 1
 else 
     echo "Nginx already installed Skipping...!"
 fi
@@ -39,7 +37,6 @@ VALIDATE $? "Nginx"
 dnf list installed unzip
 if [ $? -ne 0 ]; then
     dnf install unzip -y
-    exit 1
 else 
     echo "Unzip already installed Skipping...!"
 fi
