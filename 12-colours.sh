@@ -1,54 +1,50 @@
 #!/bin/bash
 
-R="\e[31e"
+R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-
 USERID=$(id -u)
-
-# checking root user access
 if [ $USERID -ne 0 ]; then
-    echo "Error:: Run command with root user privilizes."
+    echo "Error:: run comand with root user privilizes"
     exit 1
 fi
 
-# checking command is correct or not
 VALIDATE(){
-    if [ $1 -ne 0 ]; then # functions take inputs as args like shell script args
-        echo "Installing $2 is $R Failure..! $N."
+    if [ $1 -ne 0 ]; then # functions taken variables as arguments like shell script arguments
+        echo -e "Error:: Installing $2 is $R Failure..! $N"
         exit 1
-    else 
-        echo -e "$2 Installation is $G Success..! $Y"
+    else
+        echo -e "$2 Installation is $G Success..! $N"
     fi
 }
 
-#mysql installation:
+#mysql installation
 dnf list installed mysql 
 if [ $? -ne 0 ]; then
     dnf install mysql -y
-    VALIDATE $? MySql
-else    
-    echo -e "MySql already installed $Y Skipping..! $N"
+    VALIDATE $? "MySql"
+else 
+    echo -e "MySQl already installed $Y Skipping...! $N"
 fi
+
 
 #nginx installation
-dnf list installed nginx
+dnf list installed nginx 
 if [ $? -ne 0 ]; then
     dnf install nginx -y
-    VALIDATE $? Nginx
-else    
-    echo -e "Nginx already installed $Y Skipping..! $N"
+    VALIDATE $? "Nginx"
+else 
+    echo -e "Nginx already installed $Y Skipping...! $N"
 fi
 
-#python3 installation 
-dnf list installed python3
+
+#unzip installation
+dnf list installed unzip
 if [ $? -ne 0 ]; then
-    dnf install python3 -y
-    VALIDATE $? Python3
-else    
-    echo -e "Python3 already installed $Y Skipping..! $N"
+    dnf install unzip -y
+    VALIDATE $? "Unzip"
+else 
+    echo -e "Unzip already installed $Y Skipping...! $N"
 fi
-
-
