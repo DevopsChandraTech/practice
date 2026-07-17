@@ -1,11 +1,5 @@
 #!/bin/bash
 
-"""
-1.check user has root user access or not
-2.given command is correct or not 
-3.installation success or not
-"""
-
 USERID=$(id -u)
 if [ $USERID -ne 0 ]; then
     echo "Error:: run comand with root user privilizes"
