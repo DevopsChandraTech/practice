@@ -25,7 +25,7 @@ fi
 VALIDATE $? "MySql"
 
 #nginx installation
-dnf list installed mysql 
+dnf list installed nginx 
 if [ $? -ne 0 ]; then
     dnf install nginx -y
 else 
@@ -34,7 +34,7 @@ fi
 VALIDATE $? "Nginx"
 
 #unzip installation
-dnf list installed mysql 
+dnf list installed unzip
 if [ $? -ne 0 ]; then
     dnf install unzip -y
 else 
