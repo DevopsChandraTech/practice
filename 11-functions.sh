@@ -31,3 +31,21 @@ else
     exit 1
 fi
 VALIDATE $? MySql
+
+dnf list installed nginx 
+if [ $? -ne 0 ]; then
+    dnf install nginx -y
+else 
+    echo -e "Nginx already installed $Y Skipping..! $N"
+    exit 1
+fi
+VALIDATE $? Nginx
+
+dnf list installed unzip
+if [ $? -ne 0 ]; then
+    dnf install unzip -y
+else 
+    echo -e "Unzip already installed $Y Skipping..! $N"
+    exit 1
+fi
+VALIDATE $? Unzip
