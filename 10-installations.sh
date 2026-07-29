@@ -27,3 +27,12 @@ else
     echo "Installing Nginx Success..!"
 fi
 
+#unzip installation
+dnf install unzip -y
+if [ $? -ne 0 ]; then
+    echo "Error:: Unzip Command Not found"
+    exit 1
+else
+    echo "Installing Unzip Success..!"
+fi
+
