@@ -20,7 +20,7 @@ if [ $? -ne 0 ]; then
     echo "Error:: MySql Command Not found"
     exit 1
 else
-    echo "Installing MySql $G Success..! $N"
+    echo -e "Installing MySql $G Success..! $N"
 fi
 
 #nginx installation
@@ -29,7 +29,7 @@ if [ $? -ne 0 ]; then
     echo "Error:: Nginx Command Not found"
     exit 1
 else
-    echo "Installing Nginx $G Success..! $N"
+    echo -e "Installing Nginx $G Success..! $N"
 fi
 
 #unzip installation
@@ -38,6 +38,6 @@ if [ $? -ne 0 ]; then
     echo "Error:: Unzip Command Not found"
     exit 1
 else
-    echo "Installing Unzip $G Success..! $N"
+    echo -e "Installing Unzip $G Success..! $N"
 fi
 
