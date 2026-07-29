@@ -38,9 +38,7 @@ if [ $? -ne 0 ]; then
     VALIDATE $? Nginx
 else 
     echo -e "Nginx already installed $Y Skipping..! $N"
-    exit 1
 fi
-
 
 dnf list installed unzip
 if [ $? -ne 0 ]; then
