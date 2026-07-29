@@ -26,25 +26,28 @@ VALIDATE(){
 dnf list installed mysql 
 if [ $? -ne 0 ]; then
     dnf install mysql -y
+    VALIDATE $? MySql
 else 
     echo -e "MySql already installed $Y Skipping..! $N"
 fi
-VALIDATE $? MySql
+
 
 dnf list installed nginx 
 if [ $? -ne 0 ]; then
     dnf install nginx -y
+    VALIDATE $? Nginx
 else 
     echo -e "Nginx already installed $Y Skipping..! $N"
     exit 1
 fi
-VALIDATE $? Nginx
+
 
 dnf list installed unzip
 if [ $? -ne 0 ]; then
     dnf install unzip -y
+    VALIDATE $? Unzip
 else 
     echo -e "Unzip already installed $Y Skipping..! $N"
     exit 1
 fi
-VALIDATE $? Unzip
+
