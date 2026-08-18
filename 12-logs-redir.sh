@@ -17,6 +17,8 @@ LOG_FOLDER="/var/log/shell-script"
 SCRIPT_NAME=$(echo $0 | awk -F "." '{print $1}')
 LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
 
+mkdir -p $LOG_FOLDER
+
 VALIDATE(){
     if [ $1 -ne 0 ]; then
         echo -e "Installing $2 is $R Failure..! $N"  | tee -a &>> $LOG_FILE
