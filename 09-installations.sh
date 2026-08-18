@@ -18,7 +18,7 @@ dnf install nginx -y
 if [ $? -ne 0 ]; then
     echo "Error:: command not found"
 else
-    echo "Success:: Installing MySql"
+    echo "Success:: Installing Nginx"
 fi
 
 #Installing Unzip
@@ -26,5 +26,5 @@ dnf install unzip -y
 if [ $? -ne 0 ]; then
     echo "Error:: command not found"
 else 
-    echo "Success:: Installing MySql"
+    echo "Success:: Installing Unzip"
 fi
