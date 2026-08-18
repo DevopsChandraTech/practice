@@ -9,7 +9,7 @@ fi
 dnf install mysql -y
 if [ $? -ne 0 ];
     echo "Error:: command not found"
-else 
+else
     echo "Success:: Installing MySql"
 fi
 
@@ -17,7 +17,7 @@ fi
 dnf install nginx -y
 if [ $? -ne 0 ];
     echo "Error:: command not found"
-else 
+else
     echo "Success:: Installing MySql"
 fi
 
