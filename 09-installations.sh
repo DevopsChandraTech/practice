@@ -9,8 +9,6 @@ fi
 dnf install mysql -y
 if [ $? -ne 0 ];
     echo "Error:: command not found"
-else
-    echo "Success:: Installing MySql"
 fi
 
 #Installing Nginx
