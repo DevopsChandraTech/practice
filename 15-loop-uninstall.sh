@@ -24,7 +24,7 @@ VALIDATE(){
         echo -e "Installing $2 is $R Failure..! $N"  | tee -a $LOG_FILE
         exit 1
     else 
-        echo -e "Installing $2 is $G Success..! $N" | tee -a $LOG_FILE
+        echo -e "Uninstalling $2 is $G Success..! $N" | tee -a $LOG_FILE
     fi
 }
 
@@ -35,6 +35,6 @@ do
         dnf remove $package -y &>> $LOG_FILE
         VALIDATE $? $package
     else
-        echo -e "$package already Installed $Y Skipping..! $N" | tee -a $LOG_FILE
+        echo -e "$package already Removed $Y Skipping..! $N" | tee -a $LOG_FILE
     fi 
 done
