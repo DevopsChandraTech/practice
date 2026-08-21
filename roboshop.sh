@@ -44,7 +44,7 @@ do
         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instances}]' \
         --output text)
 
-    if [ $instance != "frontend" ]; then
+    if [ $instance -ne "frontend" ]; then
         IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
         --query 'Reservations[0].Instances[0].PrivateIpAddress' \
