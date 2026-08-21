@@ -35,6 +35,7 @@ VALIDATE(){
 }
 
 for instances in $@;
+do
     INSTANCE_ID=$(aws ec2 run-instances \
         --image-id $AMI_ID \
         --instance-type t2.micro \
@@ -42,7 +43,7 @@ for instances in $@;
         --query 'Instances[0].InstanceId' \
         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instances}]' \
         --output text)
-do
+
     if [ $instance != "frontend" ]; then
         IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
