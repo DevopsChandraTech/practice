@@ -40,7 +40,7 @@ for instances in $@;
         --instance-type t2.micro \
         --security-group-ids $SG_ID \
         --query 'Instances[0].InstanceId' \
-        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instance}]' \
+        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instances}]' \
         --output text)
 do
     if [ $instance != "frontend" ]; then
