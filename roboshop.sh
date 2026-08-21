@@ -48,7 +48,7 @@ do
         --query "Reservations[0].Instances[0].PublicIpAddress" --output text) 
     fi
 
-    $instance=$IP
+    echo "$instance=$IP"
 
 done
 
