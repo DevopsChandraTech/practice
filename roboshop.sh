@@ -34,17 +34,17 @@ VALIDATE(){
     fi
 }
 
-for instances in $@;
+for instance in $@;
 do
     INSTANCE_ID=$(aws ec2 run-instances \
         --image-id $AMI_ID \
         --instance-type t2.micro \
         --security-group-ids $SG_ID \
         --query 'Instances[0].InstanceId' \
-        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instances}]' \
+        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instance}]' \
         --output text)
 
-    if [ $instance -ne "frontend" ]; then
+    if [ $instance != "frontend" ]; then
         IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
         --query 'Reservations[0].Instances[0].PrivateIpAddress' \
