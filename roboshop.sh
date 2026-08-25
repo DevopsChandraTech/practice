@@ -25,18 +25,18 @@ do
     fi
 
     aws route53 change-resource-record-sets \
-        --hosted-zone-id Z0502082140Q7QA6WMLFW \
+        --hosted-zone-id $ZONE_ID \
         --change-batch '
         {
             "Comment": "Updating the Route53 Record"
             ,"Changes": [{
             "Action"              : "UPSERT"
             ,"ResourceRecordSet"  : {
-                "Name"              : "'" $RECORD_NAME "'"
+                "Name"              : "'$RECORD_NAME'"
                 ,"Type"             : "A"
                 ,"TTL"              : 1
                 ,"ResourceRecords"  : [{
-                    "Value"         : "'" $IP "'"
+                    "Value"         : "'$IP'"
                 }]
             }
             }]
