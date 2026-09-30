@@ -4,6 +4,8 @@ echo "total number of arguments passed into script : $@"
 
 echo "total number of arguments passed into script : $*"
 
+echo "how many arguments passed into the current script : $#"
+
 echo "name of the current script : $0"
 
 echo "home directory of current script : $HOME"
