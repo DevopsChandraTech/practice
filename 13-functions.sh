@@ -1,34 +1,30 @@
 #!/bin/bash
 
-# installing mysql nginx unzip into linux machine
-# check user has root access or not
-# check all above softwares already installed or not
-# if installed showing error otherwise need to install
-
 USER_ID=$(id -u)
 
-if [ $USER_ID -ne 0 ]; then
-    echo "Error:: check user has root privilizes or not"
+if [ $? -ne 0 ]; then
+    echo "run command with root user privilizes"
 fi
 
-dnf install mysql -y
-if [ $? -ne 0 ]; then
-    echo "Installing MySql is Success...!"
-else 
-    echo "MySql already installed Skipping...!"
-fi
+# I need to install MySql Nginx and Unzip to the server through shell script
+# check first user has root user access or not
+# if had the access then install
 
-dnf install nginx -y
-if [ $? -ne 0 ]; then
-    echo "Installing Nginx is Success...!"
-else 
-    echo "Nginx already installed Skipping...!"
-fi
+# check mysql already exist or not if exist skip if not then proceed with installation
+VALIDATE(){ #functions take inputs like args like shell script args
+   if [ $1 -ne 0 ]; then
+        echo "Installing the $2 Success..!"
+   elif 
+        echo "$2 already Installed Skipping..!"
+   fi 
+}
 
-dnf install unzip -y
-if [ $? -ne 0 ]; then
-    echo "Installing Unzip is Success...!"
-else 
-    echo "Unzip already installed Skipping...!"
-fi
+dnf list installed mysql
+VALIDATE $? "MySql"
+
+dnf list installed nginx
+VALIDATE $? "Nginx"
+
+dnf list installed unzip
+VALIDATE $? "Unzip"
 
