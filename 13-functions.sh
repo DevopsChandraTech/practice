@@ -14,7 +14,7 @@ fi
 VALIDATE(){ #functions take inputs like args like shell script args
    if [ $1 -ne 0 ]; then
         echo "Installing the $2 Success..!"
-   elif 
+   else
         echo "$2 already Installed Skipping..!"
    fi 
 }
