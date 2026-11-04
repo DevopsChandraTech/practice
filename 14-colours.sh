@@ -5,8 +5,8 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-START_TIME=$(date +%s)
 echo "the script started executed at $date"
+START_TIME=$(date +%s)
 USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
@@ -31,5 +31,5 @@ dnf list installed unzip
 VALIDATE $? "Unzip"
 
 END_TIME=$(date +%s)
-TOTAL_TIME=$(($END_TIME) - ($START_TIME))
+TOTAL_TIME=$($(END_TIME) - $(START_TIME))
 echo "the script executed in $TOTAL_TIME Secs."
