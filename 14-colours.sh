@@ -10,11 +10,11 @@ echo "the script started executed at $date"
 USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
-    echo "run user with root user privilizes"
+    echo "run user with root privilizes"
 fi
 
 VALIDATE(){
-    if [ $1 -ne 0 ];
+    if [ $1 -ne 0 ]; then
         echo "Installing $2 is $G Success...! $N"
     else
         echo "$2 already installed $Y Skipping..! $N"
