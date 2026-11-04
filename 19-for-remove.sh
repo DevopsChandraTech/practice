@@ -26,7 +26,7 @@ VALIDATE(){
         echo "Error::command not found" | tee -a $FILE_NAME
         exit 1
     else 
-        echo -e "Installing $2 $G Success..! $N" | tee -a $FILE_NAME
+        echo -e "UnInstalling $2 $G Success..! $N" | tee -a $FILE_NAME
     fi
 }
 
