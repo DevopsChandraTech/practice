@@ -5,7 +5,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-echo "the script started executed in $date"
+echo "the script started executed in $(date)"
 START_TIME=$(date +%s)
 
 USER_ID=$(id -u)
