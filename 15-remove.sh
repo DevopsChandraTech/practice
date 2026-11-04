@@ -29,7 +29,7 @@ if [ $? -eq 0 ]; then
     dnf remove mysql -y
     VALIDATE $? "MySql"
 else
-    echo -e "MySql not installed $2 Skipping..! $N"
+    echo -e "MySql not installed $Y Skipping..! $N"
 fi
 
 dnf list installed nginx
@@ -37,7 +37,7 @@ if [ $? -eq 0 ]; then
     dnf remove nginx -y
     VALIDATE $? "Nginx"
 else
-    echo -e "Nginx not installed $2 Skipping..! $N"
+    echo -e "Nginx not installed $Y Skipping..! $N"
 fi
 
 dnf list installed unzip
@@ -45,5 +45,5 @@ if [ $? -eq 0 ]; then
     dnf remove unzip -y
     VALIDATE $? "Unzip"
 else
-    echo -e "Unzip not installed $2 Skipping..! $N"
+    echo -e "Unzip not installed $Y Skipping..! $N"
 fi
