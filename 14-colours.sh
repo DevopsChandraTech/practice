@@ -5,33 +5,53 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-echo "the script started executed at $date"
+echo "the script started executed in $date"
 START_TIME=$(date +%s)
+
 USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
-    echo "run user with root privilizes"
+    echo "Error::run user with root privilizes"
     exit 1
 fi
 
 VALIDATE(){
-    if [ $1 -ne 0 ]; then
-        echo "Installing $2 is $G Success...! $N"
+    if [ $? -ne 0 ]; then
+        echo "Error::command not found"
         exit 1
-    else
-        echo "$2 already installed $Y Skipping..! $N"
+    else 
+        echo "Installing $2 $G Success..! $N"
     fi
 }
 
 dnf list installed mysql 
-VALIDATE $? "MySql"
+if [ $? -ne 0 ]; then
+    dnf install mysql -y
+    VALIDATE $? "MySql"
+else 
+    echo "MySql already Installed $Y Skipping...! $N"
+fi
 
-dnf list installed nginx
-VALIDATE $? "Nginx"
+dnf list installed nginx 
+if [ $? -ne 0 ]; then
+    dnf install nginx -y
+    VALIDATE $? "Nginx"
+else 
+    echo "Nginx already Installed $Y Skipping...! $N"
+fi
 
 dnf list installed unzip
-VALIDATE $? "Unzip"
+if [ $? -ne 0 ]; then
+    dnf install unzip -y
+    VALIDATE $? "Unzip"
+else 
+    echo "Unzip already Installed $Y Skipping...! $N"
+fi
 
 END_TIME=$(date +%s)
-TOTAL_TIME=$(($END_TIME) - ($START_TIME))
+TOTAL_TIME=$(($END_TIME - $START_TIME))
 echo "the script executed in $TOTAL_TIME Secs."
+
+
+
+
