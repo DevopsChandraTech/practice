@@ -32,12 +32,12 @@ VALIDATE(){
 
 for package in $@;
 do 
-    dnf list installed $package
+    dnf list installed $package &>> $FILE_NAME
     if [ $? -eq 0 ]; then
-        dnf remove $package -y
+        dnf remove $package -y &>> $FILE_NAME
         VALIDATE $? $package
     else 
-        echo -e "$package not installed $Y Skipping..! $N"
+        echo -e "$package not installed $Y Skipping..! $N" | tee -a $FILE_NAME
     fi
 
 done
