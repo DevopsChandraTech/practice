@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -39,6 +37,6 @@ do
         dnf install $package -y &>> $FILE_NAME
         VALIDATE $? $package
     else
-        echo -e "$package already installed $Y Skipping..! $N"
+        echo -e "$package already installed $Y Skipping..! $N" | tee -a $FILE_NAME
     fi
 done
