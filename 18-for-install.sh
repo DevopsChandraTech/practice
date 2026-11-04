@@ -38,6 +38,6 @@ do
         dnf install $package -y &>> $FILE_NAME
         VALIDATE $? $package
     else
-        echo "$package already installed $Y Skipping..! $N"
+        echo -e "$package already installed $Y Skipping..! $N"
     fi
 done
