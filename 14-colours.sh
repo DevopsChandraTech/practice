@@ -11,11 +11,13 @@ USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
     echo "run user with root privilizes"
+    exit 1
 fi
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
         echo "Installing $2 is $G Success...! $N"
+        exit 1
     else
         echo "$2 already installed $Y Skipping..! $N"
     fi
@@ -31,5 +33,5 @@ dnf list installed unzip
 VALIDATE $? "Unzip"
 
 END_TIME=$(date +%s)
-TOTAL_TIME=$($(END_TIME) - $(START_TIME))
+TOTAL_TIME=$(($END_TIME) - ($START_TIME))
 echo "the script executed in $TOTAL_TIME Secs."
