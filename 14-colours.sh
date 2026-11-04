@@ -20,7 +20,7 @@ VALIDATE(){
         echo "Error::command not found"
         exit 1
     else 
-        echo "Installing $2 $G Success..! $N"
+        echo -e "Installing $2 $G Success..! $N"
     fi
 }
 
@@ -29,7 +29,7 @@ if [ $? -ne 0 ]; then
     dnf install mysql -y
     VALIDATE $? "MySql"
 else 
-    echo "MySql already Installed $Y Skipping...! $N"
+    echo -e "MySql already Installed $Y Skipping...! $N"
 fi
 
 dnf list installed nginx 
@@ -37,7 +37,7 @@ if [ $? -ne 0 ]; then
     dnf install nginx -y
     VALIDATE $? "Nginx"
 else 
-    echo "Nginx already Installed $Y Skipping...! $N"
+    echo -e "Nginx already Installed $Y Skipping...! $N"
 fi
 
 dnf list installed unzip
@@ -45,12 +45,12 @@ if [ $? -ne 0 ]; then
     dnf install unzip -y
     VALIDATE $? "Unzip"
 else 
-    echo "Unzip already Installed $Y Skipping...! $N"
+    echo -e "Unzip already Installed $Y Skipping...! $N"
 fi
 
 END_TIME=$(date +%s)
 TOTAL_TIME=$(($END_TIME - $START_TIME))
-echo "the script executed in $TOTAL_TIME Secs."
+echo -e "the script executed in $Y $TOTAL_TIME $N Secs."
 
 
 
