@@ -11,44 +11,44 @@ START_TIME=$(date +%s)
 USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
-    echo "Error::run user with root privilizes"
+    echo "Error::run user with root privilizes" | tee -a $FILE_NAME
     exit 1
 fi
 
 LOG_FOLDER="/var/log/shell-script"
-SCRIPT_NAME=$(echo "$0" | cut -d "." -f 1) #($(echo $0 | awk -F "-" '{print $1}'))
+SCRIPT_NAME=$(echo "$0" | cut -d "-" -f 1) #($(echo $0 | awk -F "-" '{print $1}'))
 FILE_NAME=$LOG_FOLDER/$SCRIPT_NAME.log
 
 mkdir -p /var/log/shell-script
 
 VALIDATE(){
     if [ $? -ne 0 ]; then
-        echo "Error::command not found"
+        echo "Error::command not found" | tee -a $FILE_NAME
         exit 1
     else 
-        echo -e "UnInstalling $2 $G Success..! $N"
+        echo -e "UnInstalling $2 $G Success..! $N" | tee -a $FILE_NAME
     fi
 }
 
-dnf list installed mysql 
+dnf list installed mysql &>> $FILE_NAME
 if [ $? -eq 0 ]; then
-    dnf remove mysql -y
+    dnf remove mysql -y &>> $FILE_NAME
     VALIDATE $? "MySql"
 else
     echo -e "MySql not installed $Y Skipping..! $N"
 fi
 
-dnf list installed nginx
+dnf list installed nginx &>> $FILE_NAME
 if [ $? -eq 0 ]; then
-    dnf remove nginx -y
+    dnf remove nginx -y &>> $FILE_NAME
     VALIDATE $? "Nginx"
 else
     echo -e "Nginx not installed $Y Skipping..! $N"
 fi
 
-dnf list installed unzip
+dnf list installed unzip &>> $FILE_NAME
 if [ $? -eq 0 ]; then
-    dnf remove unzip -y
+    dnf remove unzip -y &>> $FILE_NAME
     VALIDATE $? "Unzip"
 else
     echo -e "Unzip not installed $Y Skipping..! $N"
