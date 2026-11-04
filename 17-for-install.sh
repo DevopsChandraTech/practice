@@ -1,7 +1,7 @@
 #!/bin/bash
 
-for package in $@:
+for package in $@;
 do 
-    echo "Name of package is : $package"
+    echo "Name of package is: $package"
 done
 
