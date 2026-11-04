@@ -16,7 +16,7 @@ if [ $USER_ID -ne 0 ]; then
 fi
 
 LOG_FOLDER="/var/log/shell-script"
-SCRIPT_NAME=$(echo "$0" | cut -d "." -f 1) #($(echo $0 | awk -F "-" '{print $1}'))
+SCRIPT_NAME=$(echo $0 | cut -d "." -f 1) #($(echo $0 | awk -F "-" '{print $1}'))
 FILE_NAME=$LOG_FOLDER/$SCRIPT_NAME.log
 
 mkdir -p /var/log/shell-script
