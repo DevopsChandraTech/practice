@@ -40,7 +40,7 @@ else
     echo -e "Nginx not installed $2 Skipping..! $N"
 fi
 
-dnf list installed nginx
+dnf list installed unzip
 if [ $? -eq 0 ]; then
     dnf remove unzip -y
     VALIDATE $? "Unzip"
