@@ -15,6 +15,12 @@ if [ $USER_ID -ne 0 ]; then
     exit 1
 fi
 
+LOG_FOLDER="/var/log/shell-script"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f 2) #($(echo $0 | awk -F "-" '{print $1}'))
+FILE_NAME=$LOG_FOLDER/$SCRIPT_NAME.log
+
+mkdir -p /var/log/shell-script
+
 VALIDATE(){
     if [ $? -ne 0 ]; then
         echo "Error::command not found"
