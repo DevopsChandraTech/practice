@@ -12,7 +12,7 @@ do
         --query 'Instances[0].InstanceId' --output text \
         --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]")
  
-    if [ $instance != 'frontend' ]; then
+    if [ $instance != "frontend" ]; then
         IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
         --query "Reservations[0].NetworkInterfaces[0].Instances[0].PrivateIpAddress" \
