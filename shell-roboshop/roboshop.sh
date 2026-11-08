@@ -8,13 +8,6 @@ N="\e[0m"
 echo "the script started executed in $(date)"
 START_TIME=$(date +%s)
 
-USER_ID=$(id -u)
-
-if [ $USER_ID -ne 0 ]; then
-    echo "Error::run user with root privilizes"
-    exit 1
-fi
-
 LOG_FOLDER="/var/log/shell-script"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f 1) #($(echo $0 | awk -F "-" '{print $1}'))
 FILE_NAME=$LOG_FOLDER/$SCRIPT_NAME.log
@@ -38,9 +31,9 @@ for instance in $@;
 INSTANCE_ID=$(aws ec2 run-instances --image-id $AMI_ID --instance-type t3.micro --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
 do 
     if [ $instance != 'frontend' ]; then
-        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)
+        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].NetworkInterfaces[0].Instances[0].PrivateIpAddress' --output text)
     else
-        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].NetworkInterfaces[0].Instances[0].PublicIpAddress' --output text)
     fi
 $instance=$IP
 
