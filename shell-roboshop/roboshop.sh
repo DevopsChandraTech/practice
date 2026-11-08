@@ -24,5 +24,5 @@ do
         --output text)
         
     fi
-    echo "$instance=$IP"
+    echo "$instance: $IP"
 done
