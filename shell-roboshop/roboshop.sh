@@ -22,6 +22,7 @@ do
         --instance-ids $INSTANCE_ID \
         --query 'Reservations[*].NetworkInterfaces[*].Instances[*].PublicIpAddress' \
         --output text)
+        $instance=$IP
     fi
-    $instance=$IP
+    
 done
