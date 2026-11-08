@@ -10,7 +10,7 @@ for instance in $@;
         --instance-type t3.micro \
         --security-group-ids $SG_ID \
         --query 'Instances[0].InstanceId' --output text \
-        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value='$instance'}]")
+        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]")
  
 do 
     if [ $instance != 'frontend' ]; then
