@@ -34,7 +34,7 @@ AMI_ID="ami-0055977a6e828a4f4"
 
 for instance in $@;
 
-INSTANCE_ID=$(aws ec2 run-instances --image-id "ami-0055977a6e828a4f4" --instance-type "t3.micro" --security-group-ids "sg-0f5bdd34affdd5ed7" --query 'Instances[0].InstanceId' --output text --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value="frontend"}])
+INSTANCE_ID=$(aws ec2 run-instances --image-id "ami-0055977a6e828a4f4" --instance-type "t3.micro" --security-group-ids "sg-0f5bdd34affdd5ed7" --query 'Instances[0].InstanceId' --output text --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value="frontend"}]')
 do 
     if [ $instance != 'frontend' ]; then
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)
