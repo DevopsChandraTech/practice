@@ -9,14 +9,14 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --image-id $AMI_ID \
     --instance-type t3.micro \
 	--security-group-ids $SG_ID \
-    --query 'Instances[0].InstanceId' --output text \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]")
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value='$instance'}]" \
+	--query 'Instances[0].InstanceId' --output text)
  
 do 
     if [ $instance != 'frontend' ]; then
-        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].NetworkInterfaces[0].Instances[0].PrivateIpAddress' --output text)
+        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].NetworkInterfaces[*].Instances[*].PrivateIpAddress' --output text)
     else
-        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].NetworkInterfaces[0].Instances[0].PublicIpAddress' --output text)
+        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].NetworkInterfaces[*].Instances[*].PublicIpAddress' --output text)
     fi
 $instance=$IP
 
