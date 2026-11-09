@@ -6,7 +6,7 @@ do
     --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=$instance" \
     --query "Reservations[].Instances[].InstanceId" \
     --output text)
-    if [ $INSTANCE_ID != 0 ]; then
+    if [ $INSTANCE_ID -ne 0 ]; then
         echo "Error:: Check the Instance Id...!"
     else 
         aws ec2 terminate-instances --instance-ids $INSTANCE_ID
