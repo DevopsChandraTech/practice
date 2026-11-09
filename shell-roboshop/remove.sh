@@ -7,9 +7,9 @@ do
     --query "Reservations[].Instances[].InstanceId" \
     --output text)
     if [ $instance == 0 ]; then
+        echo "Error:: Check the Instance Name..!"
+    else 
         aws ec2 terminate-instances --instance-ids $INSTANCE_ID
         echo "Instance $instance Terminated Successfully...!"
-    else 
-        echo "Error:: Check the Instance..!"
     fi
 done
