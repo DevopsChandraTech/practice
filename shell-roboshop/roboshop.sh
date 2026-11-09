@@ -2,6 +2,9 @@
 
 AMI_ID="ami-0055977a6e828a4f4"
 SG_ID="sg-0f5bdd34affdd5ed7"
+ZONE_ID="Z0502082140Q7QA6WMLFW"
+DOMAIN_NAME="devaws.shop"
+RECORD_NAME="$instance.$DOMAIN_NAME"
 
 for instance in $@;
 do
@@ -15,8 +18,10 @@ do
  
     if [ $instance != "frontend" ]; then
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddress" --output text)
+        RECORD_NAME=$instance.$DOMAIN_NAME #mysql.devaws.shop
     else
-        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)   
+        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text) 
+        RECORD_NAME=$DOMAIN_NAME #mysql.devaws.shop  
     fi
     echo "$instance: $IP"
 done
