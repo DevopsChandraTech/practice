@@ -24,4 +24,23 @@ do
         RECORD_NAME=$DOMAIN_NAME #mysql.devaws.shop  
     fi
     echo "$instance: $IP"
+
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+    {
+        "Comment": "Creating a record set"
+        ,"Changes": [{
+        "Action"              : "UPSERT"
+        ,"ResourceRecordSet"  : {
+            "Name"              : "'$RECORD_NAME'" # mysql.devaws.shop
+            ,"Type"             : "A"
+            ,"TTL"              : 1
+            ,"ResourceRecords"  : [{
+                "Value"         : "'" $IP "'"
+            }]
+        }
+        }]
+    }
+    '
 done
