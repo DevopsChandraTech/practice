@@ -4,7 +4,6 @@ AMI_ID="ami-0055977a6e828a4f4"
 SG_ID="sg-0f5bdd34affdd5ed7"
 ZONE_ID="Z0502082140Q7QA6WMLFW"
 DOMAIN_NAME="devaws.shop"
-RECORD_NAME="$instance.$DOMAIN_NAME"
 
 for instance in $@;
 do
