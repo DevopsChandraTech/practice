@@ -1,45 +1,60 @@
 #!/bin/bash
+# this is the first command of shell script interpreter to running the script
 
 AMI_ID="ami-0055977a6e828a4f4"
-SG_ID="sg-0f5bdd34affdd5ed7"
-ZONE_ID="Z0502082140Q7QA6WMLFW"
-DOMAIN_NAME="devaws.shop"
+INSTANCE_TYPE="t3.micro"
+SECURITY_GROUP_ID="sg-0f5bdd34affdd5ed7"
+HOSTED_ZONE_ID="Z08676551V7I14XTWRNXA"
+DOMAIN_NAME="techaws.shop"
 
+#if instance is frontend get publicip,else backend get privateip
+#If multiple network interfaces exist, 
+#use --query "Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddress" to list all attached private IPs.
 for instance in $@;
-do
+do 
     INSTANCE_ID=$(aws ec2 run-instances \
-        --image-id $AMI_ID \
-        --instance-type t3.micro \
-        --security-group-ids $SG_ID \
-        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
-        --query 'Instances[0].InstanceId' \
-        --output text)
- 
-    if [ $instance != "frontend" ]; then
-        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddress" --output text)
-        RECORD_NAME=$instance.$DOMAIN_NAME #mysql.devaws.shop
+    --image-id "$AMI_ID" \
+    --instance-type "$INSTANCE_TYPE" \
+    --security-group-ids "$SECURITY_GROUP_ID" \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instance}]' \
+    --query 'Instances[0].InstanceId' \
+    --output text )
+
+    if [ $instance != "frontend" ];
+        IP=$(aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query "Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddress" \
+            --output text)
+        RECORD_NAME=$instance.$DOMAIN_NAME
+        
     else
-        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text) 
-        RECORD_NAME=$DOMAIN_NAME #mysql.devaws.shop  
+        IP=$(aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query "Reservations[0].Instances[0].PublicIpAddress" \
+            --output text)
+        RECORD_NAME=$DOMAIN_NAME  
     fi
-    echo "$instance: $IP"
+
+    $instance=$IP
 
     aws route53 change-resource-record-sets \
-    --hosted-zone-id $ZONE_ID \
-    --change-batch '
-    {
-        "Comment": "Creating a record set"
-        ,"Changes": [{
-        "Action"              : "UPSERT"
-        ,"ResourceRecordSet"  : {
-            "Name"              : "'$RECORD_NAME'"
-            ,"Type"             : "A"
-            ,"TTL"              : 1
-            ,"ResourceRecords"  : [{
-                "Value"         : "'" $IP "'"
-            }]
-        }
-        }]
-    }
-    '
+    --hosted-zone-id $HOSTED_ZONE_ID \
+    --change-batch '{
+        "Changes": [
+            {
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": "'$RECORD_NAME'",
+                    "Type": "A",
+                    "TTL": 300,
+                    "ResourceRecords": [
+                        {
+                            "Value": "'$IP'"
+                        }
+                    ]
+                }
+            }
+        ]
+    }'
+
 done
