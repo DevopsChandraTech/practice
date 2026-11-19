@@ -10,6 +10,7 @@ DOMAIN_NAME="techaws.shop"
 #if instance is frontend get publicip,else backend get privateip
 #If multiple network interfaces exist, 
 #use --query "Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddress" to list all attached private IPs.
+# give "" all tag-specifications and query otherwise not taken
 for instance in $@;
 do 
     INSTANCE_ID=$(aws ec2 run-instances \
