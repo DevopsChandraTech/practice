@@ -20,7 +20,7 @@ do
         RECORD_NAME=$instance.$DOMAIN_NAME #mysql.devaws.shop
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text) 
-        RECORD_NAME=$DOMAIN_NAME #mysql.devaws.shop  
+        RECORD_NAME=$DOMAIN_NAME #devaws.shop  
     fi
     echo "$instance: $IP"
 
