@@ -16,7 +16,7 @@ do
     --image-id "$AMI_ID" \
     --instance-type "$INSTANCE_TYPE" \
     --security-group-ids "$SECURITY_GROUP_ID" \
-    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instance}]' \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
     --query 'Instances[0].InstanceId' \
     --output text )
 
@@ -34,7 +34,7 @@ do
         RECORD_NAME="$DOMAIN_NAME" 
     fi
 
-    $instance=$IP
+    echo $instance=$IP
 
     aws route53 change-resource-record-sets \
     --hosted-zone-id $HOSTED_ZONE_ID \
@@ -45,7 +45,7 @@ do
                 "ResourceRecordSet": {
                     "Name": "'$RECORD_NAME'",
                     "Type": "A",
-                    "TTL": 300,
+                    "TTL": 1,
                     "ResourceRecords": [
                         {
                             "Value": "'$IP'"
