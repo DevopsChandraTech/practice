@@ -15,34 +15,34 @@ fi
 START_TIME=$(date +%s)
 echo "the script started executed by $date"
 
-VALIDATE (){
-    if [ $1 -ne 0 ]; then
-        echo -e "Error:: $R $2 $N Command Not Found."
-        exit 1
-    else    
-        echo -e "$G Success $N"
-    fi
-}
-
 LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
 
 mkdir -p $LOG_FOLDER
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo
+VALIDATE (){
+    if [ $1 -ne 0 ]; then
+        echo -e "Error:: $R $2 $N Command Not Found." | tee -a $LOG_FILE
+        exit 1
+    else    
+        echo -e "$G Success $N" | tee -a $LOG_FILE
+    fi
+}
+
+cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOG_FILE
 VALIDATE $? "Adding mongo repo"
 
-dnf install mongodb-org -y 
+dnf install mongodb-org -y  &>> $LOG_FILE
 VALIDATE $? "Installing MongoDB"
 
-systemctl enable mongod 
+systemctl enable mongod  &>> $LOG_FILE
 VALIDATE $? "Enable MongoDB"
 
-systemctl start mongod
+systemctl start mongod &>> $LOG_FILE
 VALIDATE $? "Start MongoDB"
 
-END_TIME=$(date)
+END_TIME=$(date +%s)
 
 TOTAL_TIME=$(($END_TIME - $START_TIME))
 
