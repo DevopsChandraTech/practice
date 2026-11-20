@@ -27,7 +27,7 @@ VALIDATE (){
         echo -e "Error:: $R $2 $N Command Not Found." | tee -a $LOG_FILE
         exit 1
     else    
-        echo -e "$G Success $N" | tee -a $LOG_FILE
+        echo -e "$2 $G Success $N" | tee -a $LOG_FILE
     fi
 }
 
@@ -44,9 +44,9 @@ VALIDATE $? "Installing NodeJS"
 # here we run again the script "coming user already exist error" this is not idompotant
 id roboshop # checks the roboshop pid exist or not
 if [ $? -ne 0 ]; then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
 else
-    echo -e "User already exists $Y Skipping..! $N"
+    echo -e "User already exists $Y Skipping..! $N" &>> $LOG_FILE
 fi
 VALIDATE $? "Create System User"
 
