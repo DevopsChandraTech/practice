@@ -42,7 +42,7 @@ VALIDATE $? "Installing NodeJS"
 
 # the script runs many time but the comes with the same result is called idompotant
 # here we run again the script "coming user already exist error" this is not idompotant
-id roboshop # checks the roboshop pid exist or not
+id roboshop &>> $LOG_FILE # checks the roboshop pid exist or not
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
 else
@@ -58,6 +58,9 @@ VALIDATE $? "Downloading Code"
 
 cd /app &>> $LOG_FILE
 VALIDATE $? "Goto App Directory"
+
+rm -rf /app/*
+VALIDATE $? "Remove existing Code"
 
 unzip /tmp/catalogue.zip &>> $LOG_FILE
 VALIDATE $? "Extract zip code"
