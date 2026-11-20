@@ -13,7 +13,7 @@ fi
 
 #print script execution time
 START_TIME=$(date +%s)
-echo "the script started executed by $date"
+echo "the script started executed by $(date)"
 
 LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
@@ -52,6 +52,7 @@ VALIDATE $? "Coping HTML Content" &>> $LOG_FILE
 # remove exisiting nginx config file and copy our nginx config file
 rm -rf /etc/nginx.conf/*
 cp $SCRIPT_DIR/nginx.conf /etc/nginx.conf
+VALIDATE $? "Update Configfile"
 
 # restart service
 systemctl restart nginx  &>> $LOG_FILE
