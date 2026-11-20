@@ -26,12 +26,12 @@ VALIDATE (){
         echo -e "Error:: $R $2 $N Command Not Found." | tee -a $LOG_FILE
         exit 1
     else    
-        echo -e "$G Success $N" | tee -a $LOG_FILE
+        echo -e $2 "$G Success $N" | tee -a $LOG_FILE
     fi
 }
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOG_FILE
-VALIDATE $? Adding mongo repo
+VALIDATE $? "Adding mongo repo"
 
 dnf install mongodb-org -y  &>> $LOG_FILE
 VALIDATE $? "Installing MongoDB"
