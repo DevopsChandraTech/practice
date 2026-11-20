@@ -44,6 +44,6 @@ VALIDATE $? "Allowing Network Connections"
 # Restarting Service
 systemctl daemon-reload
 systemctl enable redis &>> $FILE_NAME
-systemct start redis &>> $FILE_NAME
+systemctl start redis &>> $FILE_NAME
 VALIDATE $? "Restarting Service"
 
