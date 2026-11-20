@@ -13,7 +13,7 @@ fi
 
 #print script execution time
 START_TIME=$(date +%s)
-echo "the script started executed by $date"
+echo "the script started executed by $(date)"
 
 LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
