@@ -31,22 +31,22 @@ VALIDATE (){
 }
 
 # install disable,enable,install nginx
-dnf module disable nginx -y
-dnf module enable nginx:1.24 -y
-dnf install nginx -y
+dnf module disable nginx -y &>> $LOG_FILE
+dnf module enable nginx:1.24 -y &>> $LOG_FILE
+dnf install nginx -y &>> $LOG_FILE
 VALIDATE $? "Installing Nginx"
 
 # start nginx service
-systemctl enable nginx 
-systemctl start nginx 
+systemctl enable nginx  &>> $LOG_FILE
+systemctl start nginx&>> $LOG_FILE
 VALIDATE $? "Start Nginx Service"
 
 # download nginx config and html code, remove default code and add our html content and cofig file
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
-rm -rf /usr/share/nginx/html/*
-cd /usr/share/nginx/html
-unzip /tmp/frontend.zip
-VALIDATE $? "Coping HTML Content"
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>> $LOG_FILE
+rm -rf /usr/share/nginx/html/* &>> $LOG_FILE
+cd /usr/share/nginx/html &>> $LOG_FILE
+unzip /tmp/frontend.zip &>> $LOG_FILE
+VALIDATE $? "Coping HTML Content" &>> $LOG_FILE
 # restart service
-systemctl restart nginx 
+systemctl restart nginx  &>> $LOG_FILE
 VALIDATE $? "Restart Service"
