@@ -39,9 +39,11 @@ VALIDATE $? "Installing Redis Server"
 # Update the Network port and Protected mode=no
 
 sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf &>> $FILE_NAME
+VALIDATE $? "Allowing Network Connections"
 
 # Restarting Service
-systemctl daemon-reload 
+systemctl daemon-reload
 systemctl enable redis &>> $FILE_NAME
 systemct start redis &>> $FILE_NAME
+VALIDATE $? "Restarting Service"
 
