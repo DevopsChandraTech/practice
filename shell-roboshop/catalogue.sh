@@ -31,13 +31,13 @@ VALIDATE (){
     fi
 }
 
-dnf module disable nodejs -y 
+dnf module disable nodejs -y &>> $LOG_FILE
 VALIDATE $? "Disable NodeJS"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOG_FILE
 VALIDATE $? "Enable NodeJS"
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Installing NodeJS"
 
 # the script runs many time but the comes with the same result is called idompotant
@@ -50,29 +50,29 @@ else
 fi
 VALIDATE $? "Create System User"
 
-mkdir -p /app
+mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "Create app Directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOG_FILE
 VALIDATE $? "Downloading Code"
 
-cd /app
+cd /app &>> $LOG_FILE
 VALIDATE $? "Goto App Directory"
 
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>> $LOG_FILE
 VALIDATE $? "Extract zip code"
 
-npm install
+npm install &>> $LOG_FILE
 VALIDATE $? "Installing Dependencies"
 
-cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
+cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
 VALIDATE $? "Copy Service"
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOG_FILE
 VALIDATE $? "Daemon-Reload"
 
-systemctl enable catalogue
+systemctl enable catalogue &>> $LOG_FILE
 VALIDATE $? "Enable Service"
 
-systemctl start catalogue
+systemctl start catalogue &>> $LOG_FILE
 VALIDATE $? "Starting Service"
