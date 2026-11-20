@@ -78,5 +78,5 @@ else
     echo -e "Catalogue Products already exist $Y Skipping..! $N" &>> $LOG_FILE
 fi
 
-systemctl restart mongod
-VALIDATE $? "Restart Service"
+systemctl restart catalogue
+VALIDATE $? "Restart Catalogue Service"
