@@ -19,6 +19,7 @@ LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
 SCRIPT_DIR=$PWD
+MONGODB_HOST="mongodb.techaws.shop"
 
 mkdir -p $LOG_FOLDER
 
@@ -31,12 +32,9 @@ VALIDATE (){
     fi
 }
 
+#installing nodejs application
 dnf module disable nodejs -y &>> $LOG_FILE
-VALIDATE $? "Disable NodeJS"
-
 dnf module enable nodejs:20 -y &>> $LOG_FILE
-VALIDATE $? "Enable NodeJS"
-
 dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Installing NodeJS"
 
@@ -48,34 +46,40 @@ if [ $? -ne 0 ]; then
 else
     echo -e "User already exists $Y Skipping..! $N" &>> $LOG_FILE
 fi
-VALIDATE $? "Create System User"
+VALIDATE $? "Creating System User"
 
+# Installing Dependencies
 mkdir -p /app &>> $LOG_FILE
-VALIDATE $? "Create app Directory"
-
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOG_FILE
-VALIDATE $? "Downloading Code"
-
 cd /app &>> $LOG_FILE
-VALIDATE $? "Goto App Directory"
-
 rm -rf /app/*
-VALIDATE $? "Remove existing Code"
-
 unzip /tmp/catalogue.zip &>> $LOG_FILE
-VALIDATE $? "Extract zip code"
-
 npm install &>> $LOG_FILE
 VALIDATE $? "Installing Dependencies"
 
+# Creating System Service
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
-VALIDATE $? "Copy Service"
-
 systemctl daemon-reload &>> $LOG_FILE
-VALIDATE $? "Daemon-Reload"
-
 systemctl enable catalogue &>> $LOG_FILE
-VALIDATE $? "Enable Service"
-
 systemctl start catalogue &>> $LOG_FILE
-VALIDATE $? "Starting Service"
+VALIDATE $? "Start Catalogue Service"
+
+# Installing MongoDB Client
+cp $SCRIPT_DIR/mongo.repo /etc/systemd/system/mongo.repo
+dnf install mongodb-mongosh -y
+systemctl daemon-reload
+systemctl enable mongod &>> $LOG_FILE
+systemctl start mongod &>> $LOG_FILE
+VALIDATE "Installing MongoDB Service"
+
+# Loading Catalogue Products
+INDEX=$(mongosh mongodb.techaws.shop --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+if [ $INDEX -le 1 ]; then
+    mongosh --host $MONGODB_HOST < /app/db/master-data.js &>> $LOG_FILE
+    VALIDATE $? "Load catalogue products"
+else
+    echo -e "Catalogue Products already exist $Y Skipping..! $N" &>> $LOG_FILE
+fi
+
+systemctl restart mongod
+VALIDATE $? "Restart Service"
