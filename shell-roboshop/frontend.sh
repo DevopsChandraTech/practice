@@ -51,7 +51,7 @@ VALIDATE $? "Coping HTML Content" &>> $LOG_FILE
 
 # remove exisiting nginx config file and copy our nginx config file
 rm -rf /etc/nginx/nginx.conf
-cp $SCRIPT_DIR/nginx/nginx.conf /etc/nginx/nginx.conf
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
 VALIDATE $? "Update Configfile"
 
 # restart service
