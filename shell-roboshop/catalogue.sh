@@ -65,12 +65,12 @@ systemctl start catalogue &>> $LOG_FILE
 VALIDATE $? "Start Catalogue Service"
 
 # Installing MongoDB Client
-cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOG_FILE
 dnf install mongodb-mongosh -y &>> $LOG_FILE
 systemctl daemon-reload
 systemctl enable mongod &>> $LOG_FILE
 systemctl start mongod &>> $LOG_FILE
-VALIDATE "Installing MongoDB Clint"
+VALIDATE $? "Installing MongoDB Clint"
 
 # Loading Catalogue Products
 INDEX=$(mongosh mongodb.techaws.shop --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')") &>> $LOG_FILE
