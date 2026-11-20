@@ -42,6 +42,12 @@ VALIDATE $? "Enable MongoDB"
 systemctl start mongod &>> $LOG_FILE
 VALIDATE $? "Start MongoDB"
 
+sed -i "s/127.0.0.1/0.0.0.0/g" /etc/mongod.conf
+VALIDATE $? "Allowing Internet Connection"
+
+systemctl restart mongod &>> $LOG_FILE
+VALIDATE $? "Restart Service"
+
 END_TIME=$(date +%s)
 
 TOTAL_TIME=$(($END_TIME - $START_TIME))

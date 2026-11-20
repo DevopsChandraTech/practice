@@ -66,7 +66,7 @@ VALIDATE $? "Start Catalogue Service"
 
 # Installing MongoDB Client
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
-dnf install mongodb-mongosh -y
+dnf install mongodb-mongosh -y &>> $LOG_FILE
 systemctl daemon-reload
 systemctl enable mongod &>> $LOG_FILE
 systemctl start mongod &>> $LOG_FILE
