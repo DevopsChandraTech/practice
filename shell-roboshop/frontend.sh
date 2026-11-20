@@ -50,7 +50,7 @@ unzip /tmp/frontend.zip &>> $LOG_FILE
 VALIDATE $? "Coping HTML Content" &>> $LOG_FILE
 
 # remove exisiting nginx config file and copy our nginx config file
-rm -rf /etc/nginx.conf/*
+rm -rf /etc/nginx.conf
 cp $SCRIPT_DIR/nginx.conf /etc/nginx.conf
 VALIDATE $? "Update Configfile"
 
