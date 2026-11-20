@@ -15,22 +15,23 @@ fi
 START_TIME=$(date +%s)
 echo "the script started executed by $date"
 
-VALIDATE (){
-    if [ $1 -ne 0 ]; then
-        echo -e "Error:: $R $2 $N Command Not Found."
-        exit 1
-    else    
-        echo -e "$G Success $N"
-    fi
-}
-
 LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
+SCRIPT_DIR=$PWD
 
 mkdir -p $LOG_FOLDER
 
-dnf module disable nodejs -y
+VALIDATE (){
+    if [ $1 -ne 0 ]; then
+        echo -e "Error:: $R $2 $N Command Not Found." | tee -a $LOG_FILE
+        exit 1
+    else    
+        echo -e "$G Success $N" | tee -a $LOG_FILE
+    fi
+}
+
+dnf module disable nodejs -y 
 VALIDATE $? "Disable NodeJS"
 
 dnf module enable nodejs:20 -y
@@ -43,8 +44,10 @@ VALIDATE $? "Installing NodeJS"
 # here we run again the script "coming user already exist error" this is not idompotant
 id roboshop # checks the roboshop pid exist or not
 if [ $? -ne 0 ]; then
-
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+else
+    echo -e "User already exists $Y Skipping..! $N"
+fi
 VALIDATE $? "Create System User"
 
 mkdir -p /app
@@ -62,7 +65,7 @@ VALIDATE $? "Extract zip code"
 npm install
 VALIDATE $? "Installing Dependencies"
 
-cp catalogue.service /etc/systemd/system/catalogue.service
+cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Copy Service"
 
 systemctl daemon-reload
