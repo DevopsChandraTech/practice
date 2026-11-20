@@ -18,6 +18,7 @@ echo "the script started executed by $date"
 LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
+SCRIPT_DIR=$PWD
 
 mkdir -p $LOG_FOLDER
 
@@ -47,6 +48,11 @@ rm -rf /usr/share/nginx/html/* &>> $LOG_FILE
 cd /usr/share/nginx/html &>> $LOG_FILE
 unzip /tmp/frontend.zip &>> $LOG_FILE
 VALIDATE $? "Coping HTML Content" &>> $LOG_FILE
+
+# remove exisiting nginx config file and copy our nginx config file
+rm -rf /etc/nginx.conf/*
+cp $SCRIPT_DIR/nginx.conf /etc/nginx.conf
+
 # restart service
 systemctl restart nginx  &>> $LOG_FILE
 VALIDATE $? "Restart Service"
