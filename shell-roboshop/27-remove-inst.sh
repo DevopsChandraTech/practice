@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for instance in "$@"; 
+for instance in $@; 
 do
     INSTANCE_ID=$(aws ec2 describe-instances \
         --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=$instance" \
