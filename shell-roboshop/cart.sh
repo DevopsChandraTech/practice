@@ -53,8 +53,9 @@ curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
 cd /app
 unzip /tmp/cart.zip &>> $LOG_FILE
 npm install &>> $LOG_FILE
+VALIDATE $? "Installing Dependencies"
 # Creating System Service
 cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service &>> $LOG_FILE
 systemctl daemon-reload 
-systemctl enable cart.service
+systemctl enable cart
 systemctl start service &>> $LOG_FILE
