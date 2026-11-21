@@ -37,11 +37,6 @@ dnf module disable nodejs -y &>> $LOG_FILE
 dnf module enable nodejs:20 -y &>> $LOG_FILE
 dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Installing NodeJS"
-#Starting Service
-systemctl daemon-reload &>> $LOG_FILE
-systemctl enable nodejs &>> $LOG_FILE
-systemctl start nodejs &>> $LOG_FILE
-VALIDATE $? "Starting NodeJS Service"
 #creating system user
 id roboshop  &>> $LOG_FILE
 if [ $? -ne 0 ]; then
