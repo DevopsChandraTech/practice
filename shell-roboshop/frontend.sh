@@ -39,8 +39,7 @@ VALIDATE $? "Installing Nginx"
 
 # start nginx service
 systemctl daemon-reload
-systemctl enable nginx 
-systemctl start nginx 
+systemctl enable nginx
 VALIDATE $? "Start Nginx Service"
 
 # download nginx config and html code, remove default code and add our html content and cofig file
