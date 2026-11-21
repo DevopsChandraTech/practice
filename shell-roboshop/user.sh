@@ -33,9 +33,9 @@ VALIDATE (){
 }
 
 # installing nginx server
-dnf module disable nodejs -y
-dnf module enable nodejs:20 -y
-dnf install nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
+dnf module enable nodejs:20 -y &>> $LOG_FILE
+dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Installing nodejs"
 # create systemuser
 id roboshop &>> $LOG_FILE # checks users systemuser exist or not
@@ -46,15 +46,15 @@ else
     echo "User already exist $Y Skipping..! $N"
 fi
 # download and install dependencies
-mkdir /app
+mkdir /app &>> $LOG_FILE
 cd /app
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
-unzip /tmp/user.zip
-npm install
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
+unzip /tmp/user.zip &>> $LOG_FILE
+npm install &>> $LOG_FILE
 VALIDATE $? "Install Dependencies"
 # create custom systemservice
-cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service &>> $LOG_FILE
 systemctl daemon-reload
-systemctl enable user
-systemctl start user
+systemctl enable user &>> $LOG_FILE
+systemctl start user &>> $LOG_FILE
 VALIDATE $? "Create System Service"
