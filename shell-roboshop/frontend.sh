@@ -1,57 +1,60 @@
 #!/bin/bash
-
-echo "the script start executed in $(date)"
-START_TIME=$(date +%s)
-
+#colours 
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-
-USERID=$(id -u) # show user id
-
-if [ $USERID -ne 0 ]; then
-    echo "Error:: run command with root user privilizes" | tee -a $LOG_FILE
-    exit 1
+USER_ID=$(id -u)
+#checking root user privilizes
+if [ $USER_ID -ne 0 ]; then
+    echo "Error:: run command with root user privilizes"
 fi
 
+#print script execution time
+START_TIME=$(date +%s)
+echo "the script started executed by $(date)"
+
 LOG_FOLDER="/var/log/shell-script"
-SCRIPT_NAME=$(echo $0 | awk -F "." '{print $1}')
-LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
+FILE_NAME=$(echo "$0" | cut -d "." -f 1)
+LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
 SCRIPT_DIR=$PWD
 
 mkdir -p $LOG_FOLDER
 
-VALIDATE(){
+VALIDATE (){
     if [ $1 -ne 0 ]; then
-        echo "Error:: command not found" &>> $LOG_FILE
+        echo -e "Error:: $R $2 $N Command Not Found." | tee -a $LOG_FILE
         exit 1
-    else
-        echo -e "$2 $G Success.$N" | tee -a $LOG_FILE
+    else    
+        echo -e $2 "$G Success $N" | tee -a $LOG_FILE
     fi
 }
 
-dnf module disable nginx -y  &>> $LOG_FILE
-VALIDATE $? "Disable nginx"
+# install disable,enable,install nginx
+dnf module disable nginx -y &>> $LOG_FILE
 dnf module enable nginx:1.24 -y &>> $LOG_FILE
-VALIDATE $? "Enable nginx"
 dnf install nginx -y &>> $LOG_FILE
-VALIDATE $? "Install nginx"
-systemctl enable nginx &>> $LOG_FILE
-VALIDATE $? "enable nginx"
-systemctl start nginx &>> $LOG_FILE
-VALIDATE $? "Start nginx"
-rm -rf /usr/share/nginx/html/* &>> $LOG_FILE
-VALIDATE $? "Remove default content"
+VALIDATE $? "Installing Nginx"
+
+# start nginx service
+systemctl daemon-reload
+systemctl enable nginx
+systemctl start nginx
+VALIDATE $? "Start Nginx Service"
+
+# download nginx config and html code, remove default code and add our html content and cofig file
 curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>> $LOG_FILE
-VALIDATE $? "Download nginx code"
+rm -rf /usr/share/nginx/html/* &>> $LOG_FILE
 cd /usr/share/nginx/html &>> $LOG_FILE
-VALIDATE $? "Change Directory"
 unzip /tmp/frontend.zip &>> $LOG_FILE
-VALIDATE $? "Unzip code"
+VALIDATE $? "Coping HTML Content" &>> $LOG_FILE
+
+# remove exisiting nginx config file and copy our nginx config file
 rm -rf /etc/nginx/nginx.conf
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
-VALIDATE $? "Copying nginx.conf"
-systemctl restart nginx &>> $LOG_FILE
-VALIDATE $? "restart nginx" 
+VALIDATE $? "Update Configfile"
+
+# restart service
+systemctl restart nginx  &>> $LOG_FILE
+VALIDATE $? "Restart Service"
