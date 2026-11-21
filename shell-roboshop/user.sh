@@ -46,7 +46,7 @@ else
     echo "User already exist $Y Skipping..! $N"
 fi
 # download and install dependencies
-mkdir /app &>> $LOG_FILE
+mkdir -p /app &>> $LOG_FILE
 cd /app
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
 unzip /tmp/user.zip &>> $LOG_FILE
