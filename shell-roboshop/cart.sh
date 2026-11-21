@@ -43,7 +43,7 @@ if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
     VALIDATE $? "Adding User"
 else
-    echo "System User already Exist $Y Skipping..! $N"
+    echo -e "System User already Exist $Y Skipping..! $N" &>> $FILE_NAME
 fi
 
 # Installing Dependencies
