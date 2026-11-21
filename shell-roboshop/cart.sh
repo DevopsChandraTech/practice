@@ -33,33 +33,33 @@ VALIDATE (){
 }
 
 # Installing NodeJS
-dnf module disable nodejs -y
-dnf module enable nodejs:20 -y
-dnf install nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
+dnf module enable nodejs:20 -y &>> $LOG_FILE
+dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Installing NodeJS"
 #Starting Service
-systemctl daemon-reload
-systemctl enable nodejs
-systemctl start nodejs
+systemctl daemon-reload &>> $LOG_FILE
+systemctl enable nodejs &>> $LOG_FILE
+systemctl start nodejs &>> $LOG_FILE
 VALIDATE $? "Starting NodeJS Service"
 #creating system user
-id roboshop 
+id roboshop  &>> $LOG_FILE
 if [ $? -ne 0 ]; then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
     VALIDATE $? "Adding User"
 else
     echo "System User already Exist $Y Skipping..! $N"
 fi
 
 # Installing Dependencies
-rm -rf /app
+rm -rf /app &>> $LOG_FILE
 mkdir -p /app
-curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>> $LOG_FILE
 cd /app
-unzip /tmp/cart.zip
-npm install
+unzip /tmp/cart.zip &>> $LOG_FILE
+npm install &>> $LOG_FILE
 # Creating System Service
-cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service
-systemctl daemon-reload
+cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service &>> $LOG_FILE
+systemctl daemon-reload 
 systemctl enable cart.service
-systemctl start service
+systemctl start service &>> $LOG_FILE
