@@ -49,6 +49,7 @@ fi
 mkdir -p /app &>> $LOG_FILE
 cd /app
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
+rm -rf /app/*
 unzip /tmp/user.zip &>> $LOG_FILE
 npm install &>> $LOG_FILE
 VALIDATE $? "Install Dependencies"
