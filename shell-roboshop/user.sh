@@ -32,3 +32,29 @@ VALIDATE (){
     fi
 }
 
+# installing nginx server
+dnf module disable nodejs -y
+dnf module enable nodejs:20 -y
+dnf install nodejs -y
+VALIDATE $? "Installing nodejs"
+# create systemuser
+id roboshop &>> $LOG_FILE # checks users systemuser exist or not
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop $>> $LOG_FILE
+    VALIDATE $? "Create System User"
+else
+    echo "User already exist $Y Skipping..! $N"
+fi
+# download and install dependencies
+mkdir /app
+cd /app
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+unzip /tmp/user.zip
+npm install
+VALIDATE $? "Install Dependencies"
+# create custom systemservice
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
+systemctl daemon-reload
+systemctl enable user
+systemctl start user
+VALIDATE $? "Create System Service"
