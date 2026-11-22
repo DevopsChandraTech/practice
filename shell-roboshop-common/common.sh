@@ -19,6 +19,7 @@ echo "the script started executed by $(date)"
 LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
+app_name="catalogue"
 
 mkdir -p $LOG_FOLDER
 
@@ -30,4 +31,46 @@ VALIDATE (){
         echo -e $2 "$G Success $N" | tee -a $LOG_FILE
     fi
 }
+
+# nodejs setup
+nodejs_setup(){
+    dnf module disable nodejs -y &>> $LOG_FILE
+    VALIDATE $? "Disable NodeJS"
+    dnf module enable nodejs:20 -y &>> $LOG_FILE
+    VALIDATE $? "Enable NodeJS"
+    dnf install nodejs -y &>> $LOG_FILE
+    VALIDATE $? "Installing NodeJS"
+
+    # the script runs many time but the comes with the same result is called idompotant
+    # here we run again the script "coming user already exist error" this is not idompotant
+    id roboshop &>> $LOG_FILE # checks the roboshop pid exist or not
+    if [ $? -ne 0 ]; then
+        useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
+        VALIDATE $? "Adding User"
+    else
+        echo -e "User already exists $Y Skipping..! $N" &>> $LOG_FILE
+    fi
+}
+
+app_setup(){
+    mkdir -p /app &>> $LOG_FILE
+    VALIDATE $? "Create Directory"
+    curl -o /tmp/$app_name.zip https://roboshop-artifacts.s3.amazonaws.com/$app_name-v3.zip &>> $LOG_FILE
+    VALIDATE $? "Download Code"
+    cd /app &>> $LOG_FILE
+    VALIDATE $? "Change Directory"
+    rm -rf /app/*
+    unzip /tmp/$app_name.zip &>> $LOG_FILE
+    npm install &>> $LOG_FILE
+    VALIDATE $? "Installing Dependencies"
+
+}
+systemd_setup(){
+    cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
+    systemctl daemon-reload &>> $LOG_FILE
+    systemctl enable $app_name &>> $LOG_FILE
+    systemctl start $app_name &>> $LOG_FILE
+    VALIDATE $? "Start $app_name Service"
+}
+
 
