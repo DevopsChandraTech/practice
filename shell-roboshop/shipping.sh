@@ -44,14 +44,17 @@ curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shippin
 cd /app 
 rm -rf /app/*
 unzip /tmp/shipping.zip &>> $LOG_FILE
+VALIDATE $? "Download Code"
 # install dependencies
 mvn clean package &>> $LOG_FILE
 mv target/shipping-1.0.jar shipping.jar &>> $LOG_FILE
+VALIDATE $? "Install Dependencies"
 # start service
 cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
 systemctl daemon-reload
 systemctl enable shipping &>> $LOG_FILE
 systemctl start shipping &>> $LOG_FILE
+VALIDATE $? "Start Service"
 
 
 
