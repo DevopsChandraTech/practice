@@ -59,7 +59,9 @@ app_setup(){
     cd /app &>> $LOG_FILE
     VALIDATE $? "Change Directory"
     rm -rf /app/*
+    VALIDATE $? "Remove Content"
     unzip /tmp/$app_name.zip &>> $LOG_FILE
+    VALIDATE $? "Unzip Code"
     npm install &>> $LOG_FILE
     VALIDATE $? "Installing Dependencies"
 
