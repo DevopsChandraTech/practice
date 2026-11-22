@@ -39,6 +39,8 @@ nodejs_setup(){
     VALIDATE $? "Enable NodeJS"
     dnf install nodejs -y &>> $LOG_FILE
     VALIDATE $? "Installing NodeJS"
+    cd /app
+    VALIDATE $? "Change Directory"
     npm install &>> $LOG_FILE
     VALIDATE $? "Installing Dependencies"
 
