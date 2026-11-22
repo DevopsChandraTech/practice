@@ -19,6 +19,7 @@ LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
 SCRIPT_DIR=$PWD
+MYSQL_HOST=mysql.techaws.shop
 MONGODB_HOST="mongodb.techaws.shop"
 
 mkdir -p $LOG_FOLDER
@@ -36,7 +37,7 @@ VALIDATE (){
 dnf install maven -y &>> $LOG_FILE
 VALIDATE $? "Installing Maven"
 # create user
-id roboshop 
+id roboshop &>> $LOG_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
     VALIDATE $? "Create User"
@@ -60,6 +61,24 @@ systemctl daemon-reload
 systemctl enable shipping &>> $LOG_FILE
 systemctl start shipping &>> $LOG_FILE
 VALIDATE $? "Start Service"
+# loading citis information
+dnf install mysql -y
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities' &>> $LOG_FILE
+if [ $? -ne 0 ]; then
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql  &>> $LOG_FILE
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $LOG_FILE
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LOG_FILE
+    VALIDATE $? "Load Cities Info"
+else 
+    echo -e "Cities info already exists $Y Skipping $N"
+fi
+
+systemctl daemon-reload
+systemctl enable shipping
+systemctl restart shipping
+VALIDATE $? "Start Shipping Service"
+
+
 
 
 
