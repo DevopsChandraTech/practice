@@ -19,7 +19,6 @@ echo "the script started executed by $(date)"
 LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
-app_name="catalogue"
 
 mkdir -p $LOG_FOLDER
 

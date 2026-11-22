@@ -1,7 +1,8 @@
 #!/bin/bash
 
 source ./common.sh
-app_name
+app_name=catalogue
+
 check_root
 app_setup
 nodejs_setup
