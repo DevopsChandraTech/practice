@@ -45,7 +45,7 @@ else
 fi
 
 # download code
-mkdir /app
+mkdir -p /app
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>> $LOG_FILE
 cd /app 
 rm -rf /app/* &>> $LOG_FILE
