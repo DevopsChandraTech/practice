@@ -77,29 +77,29 @@ systemd_setup(){
 }
 
 nginx_setup(){
-    dnf module list nginx
+    dnf module list nginx &>> $LOG_FILE
     VALIDATE $? "List Module"
-    dnf module disable nginx -y
+    dnf module disable nginx -y &>> $LOG_FILE
     VALIDATE $? "Disable Nginx"
-    dnf module enable nginx:1.24 -y
+    dnf module enable nginx:1.24 -y &>> $LOG_FILE
     VALIDATE $? "Enable Nginx"
-    dnf install nginx -y
+    dnf install nginx -y &>> $LOG_FILE
     VALIDATE $? "Install Nginx"
     systemctl daemon-reload
     systemctl enable nginx 
-    systemctl start nginx 
+    systemctl start nginx &>> $LOG_FILE
     VALIDATE $? "Start Nginx Service"
-    curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+    curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>> $LOG_FILE
     VALIDATE $? "Download HTML Code"
-    rm -rf /usr/share/nginx/html/*
+    rm -rf /usr/share/nginx/html/* &>> $LOG_FILE
     VALIDATE $? "Remove Default HTML Code" 
-    cd /usr/share/nginx/html/
+    cd /usr/share/nginx/html/ &>> $LOG_FILE
     VALIDATE $? "Change Directory"
-    unzip /tmp/frontend.zip
+    unzip /tmp/frontend.zip &>> $LOG_FILE
     VALIDATE $? "Unzip HTML Code"
-    cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
+    cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>> $LOG_FILE
     VALIDATE $? "Config Directory"
-    systemctl restart nginx
+    systemctl restart nginx &>> $LOG_FILE
     VALIDATE $? "Restart Nginx Service"
 }
 
