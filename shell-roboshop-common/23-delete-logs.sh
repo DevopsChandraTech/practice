@@ -45,7 +45,7 @@ fi
 
 FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +$DAYS)
 
-if [ ! -z $SOURCE_DIR ]; then
+if [ ! -z ${FILES} ]; then
     echo "files found $FILES" 
 else
     echo -e "$SOURCE_DIR directory empty $Y Skipping $N"
