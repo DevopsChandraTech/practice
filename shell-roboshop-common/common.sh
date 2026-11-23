@@ -70,7 +70,7 @@ app_setup(){
     VALIDATE $? "Unzip Code"
 }
 systemd_setup(){
-    cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
+    cp $SCRIPT_DIR/$app_name.service /etc/systemd/system/$app_name.service &>> $LOG_FILE
     systemctl daemon-reload &>> $LOG_FILE
     systemctl enable $app_name &>> $LOG_FILE
     systemctl start $app_name &>> $LOG_FILE
