@@ -117,11 +117,11 @@ java_setup(){
 }
 
 python_setup(){
-    dnf install python3 gcc python3-devel -y
+    dnf install python3 gcc python3-devel -y &>> $FILE_NAME
     VALIDATE $? "Install Python"
-    pip3 install -r requirements.txt
+    pip3 install -r requirements.txt &>> $FILE_NAME
     VALIDATE $? "Install Dependencies"
-    cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
+    cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service &>> $FILE_NAME
     VALIDATE $? "Create Service"
 }
 
