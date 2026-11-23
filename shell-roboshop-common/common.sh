@@ -112,7 +112,7 @@ java_setup(){
     mv target/shipping-1.0.jar shipping.jar  &>> $FILE_NAME
     VALIDATE $? "Installing Dependencies"
     cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>> $FILE_NAME
-    VALIDATE "Update Service"
+    VALIDATE $? "Update Service"
     systemd_setup
 }
 
