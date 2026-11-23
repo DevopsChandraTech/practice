@@ -76,4 +76,31 @@ systemd_setup(){
     VALIDATE $? "Start $app_name Service"
 }
 
+nginx_setup(){
+    dnf module list nginx
+    VALIDATE $? "List Module"
+    dnf module disable nginx -y
+    VALIDATE $? "Disable Nginx"
+    dnf module enable nginx:1.24 -y
+    VALIDATE $? "Enable Nginx"
+    dnf install nginx -y
+    VALIDATE $? "Install Nginx"
+    systemctl daemon-reload
+    systemctl enable nginx 
+    systemctl start nginx 
+    VALIDATE $? "Start Nginx Service"
+    curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+    VALIDATE $? "Download HTML Code"
+    rm -rf /usr/share/nginx/html/*
+    VALIDATE $? "Remove Default HTML Code" 
+    cd /usr/share/nginx/html/
+    VALIDATE $? "Change Directory"
+    unzip /tmp/frontend.zip
+    VALIDATE $? "Unzip HTML Code"
+    cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
+    VALIDATE $? "Config Directory"
+    systemctl restart nginx
+    VALIDATE $? "Restart Nginx Service"
+}
+
 
