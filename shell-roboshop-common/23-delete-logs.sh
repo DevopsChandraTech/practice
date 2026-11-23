@@ -11,6 +11,7 @@ START_TIME=$(date +%s)
 USER_ID=$(id -u)
 SOURCE_DIR=$1
 DEST_DIR=$2
+DAYS=${3:-14} # if not provided default is 14 days taken
 
 if [ $USER_ID -ne 0 ]; then
     echo "Error::run user with root privilizes"
@@ -25,6 +26,7 @@ mkdir -p /var/log/shell-script
 
 USAGE(){
     echo -e "$R sudo sh 23-delete-logs.sh <SOURCE_DIR> <DEST_DIR> <DAYS>[optional default 14days] $N"
+    exit 1
 }
 
 if [ $# -le 2 ]; then
@@ -33,8 +35,18 @@ fi
 
 if [ ! -d $SOURCE_DIR ]; then
     echo "source directory doesnot exist"
+    exit 1
 fi
 
 if [ ! -d $DEST_DIR ]; then
     echo "destination directory doesnot exist"
+    exit 1
+fi
+
+FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +$DAYS)
+
+if [ ! -z $SOURCE_DIR ]; then
+    echo "files found $FILES" 
+else
+    echo -e "$SOURCE_DIR directory empty $Y Skipping $N"
 fi
