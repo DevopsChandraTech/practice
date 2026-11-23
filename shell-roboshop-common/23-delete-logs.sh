@@ -31,3 +31,10 @@ if [ $# -le 2 ]; then
     USAGE
 fi
 
+if [ ! -d $SOURCE_DIR ]; then
+    echo "source directory doesnot exist"
+fi
+
+if [ ! -d $DEST_DIR ]; then
+    echo "destination directory doesnot exist"
+fi
