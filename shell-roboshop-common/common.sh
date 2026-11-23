@@ -20,6 +20,7 @@ LOG_FOLDER="/var/log/shell-script"
 FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
 SCRIPT_DIR=$PWD
+MONGODB_HOST="mongodb.techaws.shop"
 
 mkdir -p $LOG_FOLDER
 

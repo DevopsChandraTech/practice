@@ -8,3 +8,8 @@ app_setup
 nodejs_setup
 systemd_setup
 
+dnf install mongodb-mongosh -y
+mongosh --host $MONGODB_HOST </app/db/master-data.js
+
+
+
