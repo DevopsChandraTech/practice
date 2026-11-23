@@ -45,7 +45,7 @@ fi
 
 FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +$DAYS)
 
-if [ ! -z ${FILES} ]; then
+if [ ! -z "${FILES}" ]; then
     echo "files found $FILES"
     TIME_STAMP=$(date +%H-%M-%S)
     ZIP_FILE_NAME="$DEST_DIR/app-logs-$TIME_STAMP.zip" 
