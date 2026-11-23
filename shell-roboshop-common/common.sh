@@ -21,6 +21,7 @@ FILE_NAME=$(echo "$0" | cut -d "." -f 1)
 LOG_FILE=$LOG_FOLDER/$FILE_NAME.log
 SCRIPT_DIR=$PWD
 MONGODB_HOST="mongodb.techaws.shop"
+MYSQL_HOST="mysql.techaws.shop"
 
 mkdir -p $LOG_FOLDER
 
@@ -103,5 +104,17 @@ nginx_setup(){
     systemctl restart nginx &>> $LOG_FILE
     VALIDATE $? "Restart Nginx Service"
 }
+
+java_setup(){
+    dnf install maven -y &>> $FILE_NAME
+    VALIDATE $? "Installing Maven"
+    mvn clean package  &>> $FILE_NAME
+    mv target/shipping-1.0.jar shipping.jar  &>> $FILE_NAME
+    VALIDATE $? "Installing Dependencies"
+    cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>> $FILE_NAME
+    VALIDATE "Update Service"
+    systemd_setup
+}
+
 
 
