@@ -116,5 +116,13 @@ java_setup(){
     systemd_setup
 }
 
+python_setup(){
+    dnf install python3 gcc python3-devel -y
+    VALIDATE $? "Install Python"
+    pip3 install -r requirements.txt
+    VALIDATE $? "Install Dependencies"
+    cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
+    VALIDATE $? "Create Service"
+}
 
 
