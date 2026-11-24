@@ -52,6 +52,18 @@ if [ ! -z "${FILES}" ]; then
     echo "zip file name is : $ZIP_FILE_NAME"
     find $SOURCE_DIR -name "*.log" -type f -mtime +$DAYS | zip -@ -j "$ZIP_FILE_NAME"
 
+    if [ -f $ZIP_FILE_NAME ]; then
+        echo -e "Archival $G Success..! $N"
+        while IFS= read -r filepath
+        do 
+            echo "deleting the file $filepath"
+            rm -rf $filepath
+            echo "deleted the file $filepath"
+        done <<< $FILES
+    else
+        echo -e "Archival $R Failure..! $N"
+    fi
+
 else
     echo -e "source directory empty $Y Skipping $N"
 fi
